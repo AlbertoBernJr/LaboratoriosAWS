@@ -1,0 +1,45 @@
+entrar no console aws -> pesquisar por [ vpc ] -> [ criar vpc ] -> [ vpc e muito mais ] -> desmarcar 
+[ gerar automaticamente ] -> manter bloco cidr ipv4: [ 10.0.0.0/16 ] -> bloco cidr ipv6: [ nenhum bloco cidr 
+ipv6 ] -> locação: [ padrao ] -> numero zonas disponiblidade (azs): [ 1 ] -> numero sub-redes publicas: [ 1 ] -> 
+numero sub-redes privadas: [ 1 ] -> [ personalizar blocos cidr sub-redes ] -> bloco cidr sub-rede publica: 
+[ 10.0.0.0/24 ] -> bloco cidr sub-rede privada: [ 10.0.1.0/24 ] -> gateways nat: [ nenhuma ] -> ir no panel de 
+previsualização -> vpc etiqueta sem nome: [ lab vpc ] ->  sub-rede publica etiqueta: [ Public Subnet 1 ] -> 
+sub-rede privada etiqueta: [ private subnet 1 ] -> tabela rota publica: [ public route table ] -> tabela rota 
+privada: [ private route table ] -> [ criar vpc ] -> painel lateral esquerdo -> [ suas vpcs ] -> selecionar a 
+caixinha [ lab vpc ] ->  aba [ mapa de recursos ] -> visualizar as modificações  realizadas -> painel lateral ->
+procurar por [ sub-redes ] -> [ criar sub-redes ] -> id da vpc: [ vpc-... (lab vpc) ] -> nome sub-rede: 
+[ public subnet 2 ] -> zona disponibilidade: [ sem preferencia ] -> bloco cidr ipv4 sub-rede: [ 10.0.2.0/24 ] ->
+[ criar sub-rede] -> [ criar sub-rede ] ->  id da vpc: [ vpc-... (lab vpc) ] -> nome sub-rede: [ private subnet 
+2 ] -> bloco cidr ipv4 sub-rede: [ 10.0.3.0/24 ] -> [ criar sub-rede ] -> painel lateral esquerdo -> [ tabela de
+rotas ] -> selecionar a caixinha da [ public route table ] -> [ ações ] -> [ editar associações de sub-rede ] ->
+só deixar selecionado a caixinha da [ public subnet 2 ] -> [ salvar associação ] -> selecionar a caixinha da 
+[ private route table ] -> [ ações ] -> [ editar associações de sub-rede ] -> só deixar selecionado a caixinha 
+da [ private subnet 2 ] -> [ salvar associações ] -> painel lateral esquerdo -> [ grupo de segurança ] -> 
+[ criar grupo de segurança ] -> nome: [ Web Security Group ] -> descrição: [ Enable HTTP access ] -> vpc: 
+[ vpc-... (lab vpc) ] -> [ regras de entrada ] -> [ adicionar regra ] -> tipo: [ http ] -> origem: 
+[ qualquer ipv4 ] -> [ 0.0.0.0/0 ] -> descrição: [ permit web requests ] -> [ criar grupo de segurança ] -> 
+aba de pesquisa ->  digitar [ ec2 ] ->  [ executar uma instancia ] -> nome: [ web server 1 ] -> imagem: 
+[ amazon linux 2 AMI (HVM) - kernel 5.10, SSD Volume Type ] -> tipo instancia: [ t3.micro ] -> par de chaves: 
+[ vockey ] -> [ configurações de rede ] -> vpc: [ vpc-... (lab vpc) ] -> sub-rede: [ public subnet 2 ] -> 
+ip publico automaticamente: [ habilitar ] -> firewall: [ selecionar grupo segurança existente ] -> 
+grupo segurança comuns: [ web security group ] -> [ detalhes avançados ] -> dados do usuário: < colar o 
+codigo > -> [ executar instancia ] -> [ visualizar todas as instancias ] -> esperar a instancia entrar no 
+status de [pronto] + [ 3/3 verificações ] -> selecionar a caixinha da [ web server 1 ] -> aba [ redes ] -> 
+copiar o IPv4 publico -> colar na aba de pesquisa do navegador -> tem que mostrar uma mensagem da aws
+
+==========================================================================
+> criar vpc
+
+> criando sub-redes publicas e privadas
+
+> CIDR /24 = permite criar 256 endereços IP
+
+> adicionando a etiqueta/nome diretamente pelo diagrama de previsualização
+
+> visualização dos nomes pelo mapa de recursos da vpc
+
+> criandoo sub-redes diretamente pelo mapa de recursos da VPC
+
+> associando a tabela de rotas às sub-redes
+
+> criar grupo de segurança para a vpc
