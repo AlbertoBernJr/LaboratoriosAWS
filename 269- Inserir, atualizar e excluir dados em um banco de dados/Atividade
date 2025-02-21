@@ -1,0 +1,73 @@
+> [ Shift+Ctrl+v ] = colar as informações no terminal - usando sistema windows
+
+> no painel aws -> procurar por [ec2] -> painel [recursos] -> [instancias (em execução)] -> 
+selecionar a instancia [command host] -> la em cima, clicar em [conectar] -> ir em [gerenciador de 
+sessões] -> [conectar] -> digitar [ sudo su ] ->  digitar [ cd /home/ec2-user/ ] -> digitar 
+[ mysql -u root --password='re:St@rt!9' ] -> digitar [ SHOW DATABASES; ] -> [ SELECT * FROM 
+world.country; ] -> 
+------------------------------------------------------------------------------------------------
+INSERT INTO world.country VALUES ('IRL','Ireland','Europe',
+'British Islands',70273.00,1921,3775100,76.8,75921.00,73132.00,'Ireland/Éire','Republic',1447,'IE');
+
+INSERT INTO world.country VALUES ('AUS','Australia','Oceania','Australia and New Zealand',
+7741220.00,1901,18886000,79.8,351182.00,392911.00,'Australia','Constitutional Monarchy, Federation',135,'AU');
+--------------------------------------------------------------------------------------------------
+-> [ SELECT * FROM world.country WHERE Code IN ('IRL', 'AUS'); ] -> 
+[ UPDATE world.country SET Population = 0; ] -> [ SELECT * FROM world.country; ] -> 
+[ UPDATE world.country SET Population = 100, SurfaceArea = 100; ] -> [ SELECT * FROM world.country; ] -> 
+-----------------------------
+SET FOREIGN_KEY_CHECKS = 0;
+DELETE FROM world.country;
+-----------------------------
+-> [ SELECT * FROM world.country; ] -> [ QUIT; ] -> [ ls /home/ec2-user/world.sql ] -> 
+[ mysql -u root --password='re:St@rt!9' < /home/ec2-user/world.sql ] -> 
+[ mysql -u root --password='re:St@rt!9' ] -> 
+-------------
+USE world;
+SHOW TABLES;
+-------------
+-> [ SELECT * FROM country; ]
+
+=======================================================================================================
+- usar [ mysql -u root --password='re:St@rt!9' ] para se conectar à instancia banco de dados instalada
+
+- comando [ SHOW DATABASES; ] = mostrar os banco de dados existentes 
+
+- comando [ SELECT * FROM world.country; ] = verifica se a tabela [country] existe
+>> [ SELECT ] = identificar colunas
+>> [ * ] = define que deverá mostrar todas as colunas
+>> [ FROM ] = define de onde determinada informação será exibida
+
+- comando [ INSERT INTO world.country VALUES ] = insere informações a uma nova linha da tabela [ country ]
+
+- comando [ SELECT * FROM world.country WHERE Code IN ('IRL', 'AUS'); ] = verifica se as 2 linhas foram 
+  adicionadas à tabela [ country ]
+
+- comando [ UPDATE world.country SET Population = 0; ] = altera os valores das linhas que fazem parte da 
+  coluna [ Popualtion ] para [ 0 ]
+>> todas as linhas são alteradas porque não foi usado a função [ WHERE ], que especifica qual linha/coluna 
+  será alterada
+
+- comando [ UPDATE world.country SET Population = 100, SurfaceArea = 100; ] = altera os valores das linhas 
+  que fazem parte da coluna [ Popualtion ] e [ SurfaceArea] para [ 100 ]
+
+- comando [ SET FOREIGN_KEY_CHECKS = 0; ] = altera todas as chaves estrangeiras para o valor [ 0 ]
+
+- comando [ DELETE FROM world.country; ] = deleta todas as linhas da tabela [country]
+>> quais linhas serão apagadas não foram definida pela função [WHERE]
+ 
+- comando [ QUIT; ] = sai do terminal MySQL
+
+- comando [ ls /home/ec2-user/world.sql ] = verifica se o arquivo [world.sql] foi baixado
+
+- comando [ mysql -u root --password='re:St@rt!9' < /home/ec2-user/world.sql ] = adiciona mais 2 tabelas 
+  adicionais e insere os dados em todas as 3 tabelas
+>> foi criado um arquivo SQL script contendo um grupo de definições SQL para inserir os dados rapidamente 
+  ao bando de dados
+
+- comando [ mysql -u root --password='re:St@rt!9' ] = reconecta ao banco de dados
+
+- comando [ USE world ] = seleciona o banco de dados [world]
+
+- [ SHOW TABLES ] = exibe todas as tabelas (city, country e CountryLanguage) que estão dentro do banco de 
+  dados [ world ]
