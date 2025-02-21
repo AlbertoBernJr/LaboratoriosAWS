@@ -1,0 +1,61 @@
+entrar no console da aws -> procurar por [ IAM] -> painel esquerdo -> [ onfiguração da conta] -> 
+canto direito -> [ editar ] -> [ personalizado ] -> tamanho minimo senha: [10] -> intensidade da senha: 
+< marcar todas as opções > -> ativar expiração senha: [ 90 dias ] -> [ permitir que os usuários alterem a 
+própria senha ] -> [ impedir reutilização de senhas ] -> lembrar senhas: [ 5 ] -> [ salvar alterações ] -> 
+painel lateral -> [ gerenciamento de acesso ] -> [ usuarios ] -> foi verificado que os usuários nao tem 
+credenciais de acesso -> painel lateral esquerdo -> [ grupo  de usuarios ] -> clicar no nome [ec2 support] -> 
+aba [ permissoes ] -> verificar as permissoes -> verificar as permissoes dos outros grupos de usuários -> 
+painel esquerdo -> procurar por [ politicas ] -> pesquisar [ ec2] para achar as politicas do ec2 -> painel 
+lateral esquerdo -> [ grupo de usuarios ] -> clicar no nome do [s3 support] -> aba [ usuarios] -> [ adicionar 
+usuarios] -> selecionar a caixinha do [ user-1] -> [ adicionar usuarios ] -> painel lateral esquerdo -> [ grupo 
+de usuarios ] -> clicar no nome do [ec2 support] -> aba [ usuarios] -> [ adicionar usuarios] -> selecionar a 
+caixinha do [ user-2] -> [ adicionar usurarios] ->  painel lateral esquerdo -> [ grupo de usuarios ] -> clicar 
+no nome do [ec2 admin] -> aba [ usuarios] -> [ adicionar usuarios] -> selecionar a caixinha do [ user-3] -> 
+[ adicionar usurarios] -> painel lateral -> [ usuarios ] -> verificar que cada um deles esta em 1 grupo -> 
+clicar na caixinha do [ user-1] -> aba [ permissoes] -> analisar as permissoes que foram incorporadas -> 
+painel lateral -> [ usuarios ] -> selecionar a caixinha do [ user-1] -> aba [ credenciais de segurança] -> 
+copiar o [ link login de console] -> abrir outro navegador ou uma nova guia anonima -> colar o endereço copiado 
+no campo de busca -> painel lateral -> [ painel ] -> canto direito -> em [ conta da aws ] -> copiar o [ id da 
+conta ] -> na parte inicial da aws que foi aberta no novo navegador ou aba anonima -> em [ account id ] -> 
+colar o id que foi copiado -> IAM-username: [ user-1] -> password: [ Lab-Password1 ] -> clicar em [sign-in] -> 
+serão exibidos alguns avisos de acesso negado -> clicar em [S3] -> verificar que o [user-1] tem acesso ao S3 -> 
+digitar [ ec2] na barra de pesquisa -> verificar que o usuário nao tem permissao de acesso ao EC2 -> lado 
+direito superior -> clicar no nome [user-1] -> [sair] -> so precisará copiar o [Id conta] -> no novo navegador 
+ou aba anonima, ir em [ login] -> colar o id conta que foi copiado -> IAM user: [user-2] -> password: 
+[ Lab-Password2 ] -> [ log-in ] -> verificar que so tem permissao para usar o EC2 -> pesquisar por [ec2] -> 
+[ instancia em execução] -> selecionar a caixinha da instancia -> [ estado da instancia ] -> [ interromper 
+instancia] -> verificar que nao tem permissao para parar uma instancia -> sair da conta -> copiar o [Id conta] ->
+IAM user: [ user-3] -> password: [ Lab-Password3 ] -> [ sign-in] -> pesquisar por [S3] -> verificar que não pode
+criar um bucket S3 -> pesquisar por [ec2]-> [instancias em execução] -> selecionar a caixinha da instancia 
+[ web server] -> [ estdo da isntancia ] -> [ interrmper ] -> tem permissao para parar uma instancia -> não tem 
+permissao para criar uma instancia EC2 
+
+================================================================
+> configirurando a conta de a cordo com as políticas da empresa 
+
+> personalizando as políticas de senha IAM:
+>> definindo a intensidade da senha para conter: letras maiusculas, letras minusculas, numeros e caracteres 
+    especiais
+
+> outros requisitos da senha:
+>> defindo para a senha resetar depois de 90 dias
+>> permitir com que os usuários alterem a propria senha
+>> impedir a reutilização de senhas: o sistema lembrará das senhas usadas previamente e não as deixara serem 
+    usadas de novo
+
+> verificando as credenciais de cada usuário
+
+> verificando as permissoes dos grupos de usuários
+
+> verificando as politicas do ec2
+
+> adicionando usuários aos grupos de politicas ec2
+
+> verificando as permissoes de cada  usuario atraves de testes das permissoes usando o  ID da Conta, usuário IAM
+  e senha
+
+> entendimento de que cada conta tem um ID
+
+> o usuário 3 tem permissão para mexer na EC2, mas não tem permissao para configurar a VPC. O grupo de segurança
+  pertence a VPC, parte de rede
+>> usuário não tem permissão para mexer na parte de rede
