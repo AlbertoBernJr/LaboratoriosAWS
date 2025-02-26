@@ -1,0 +1,9 @@
+> SELECT: Seleciona colunas específicas de uma tabela.
+> FROM: Especifica a tabela de onde os dados serão retirados.
+> WHERE: Filtra os resultados com base em uma condição.
+> ORDER BY: Ordena os resultados com base em uma ou mais colunas.
+> GROUP BY: Agrupa os resultados com base em valores iguais em uma coluna.
+> SUM(): Calcula a soma dos valores em uma coluna.
+> OVER(): Usado com funções de janela para realizar cálculos em grupos de linhas.
+> PARTITION BY: Divide os resultados em grupos (partições) para aplicar funções de janela.
+> RANK(): Atribui uma classificação (rank) a cada linha dentro de um grupo.
