@@ -1,0 +1,54 @@
+acessar o console da aws -> procurar por [ec2] -> [instancias (em execução)] -> selecionar a caixinha da 
+instancia [command host]  -> subir a tela -> ir em [conectar] -> [gerenciador de sessoes] -> [conectar] -> 
+digitar: [
+sudo su
+cd /home/ec2-user/
+mysql -u root --password='re:St@rt!9' 
+  ] -> [ SHOW DATABASES; ] -> [ SELECT * FROM world.country; ] -> [ SELECT Region, Name, Population FROM 
+world.country WHERE Region = 'Australia and New Zealand' ORDER By Population desc; ] -> [ SELECT Region, 
+SUM(Population) FROM world.country WHERE Region = 'Australia and New Zealand' GROUP By Region ORDER By 
+SUM(Population) desc; ] -> [ SELECT Region, Name, Population, SUM(Population) OVER(partition by Region ORDER 
+BY Population) as 'Running Total' FROM world.country WHERE Region = 'Australia and New Zealand'; ] -> [ SELECT 
+Region, Name, Population, SUM(Population) OVER(partition by Region ORDER BY Population) as 'Running Total', 
+RANK() over(partition by region ORDER BY population) as 'Ranked' FROM world.country WHERE region = 'Australia 
+and New Zealand'; ] -> [ SELECT Region, Name, Population, SUM(Population) OVER(partition by Region ORDER BY 
+Population) as 'Running Total', RANK() over(partition by region ORDER BY population) as 'Ranked' FROM 
+world.country WHERE region = 'Australia and New Zealand'; ] -> [ SELECT Region, Name, Population, RANK() 
+OVER(partition by Region ORDER BY Population desc) as 'Ranked' FROM world.country order by Region, Ranked;]
+
+
+> SHOW DATABASES; = mostra todos os banco de dados que tem dentro do sistema
+> SELECT * FROM world.country; = seleciona/exibe todas as colunas da tabela [country] que esta dentro do 
+  banco de dados [world]
+
+> SELECT Region, Name, Population FROM world.country WHERE Region = 'Australia and New Zealand' ORDER By 
+  Population desc; = retorna somente as colunas [region], [name] e [population] da tabela [country]
+>> somente as regioes de [australia] e [new zealand]
+>>  [ ORDER BY ] = organiza os resultados
+>> [ ORDER BY Population desc] = organiza os resultados em ordem decrescente
+
+SELECT Region, SUM(Population) FROM world.country WHERE Region = 'Australia and New Zealand' GROUP By Region 
+  ORDER By SUM(Population) desc;
+>> [GROUP BY] = pode ser usado para agrupar registros relacionados
+>> [ WHERE Region = 'Australia and New Zealand' ] = exibe somente os resultados contidos na região de 
+    [australia] e [new zealand]
+>> [ SUM() ] = soma todos os resultados agrupados pelo [GROUP BY] para gerar uma população total para a região
+
+> SELECT Region, Name, Population, SUM(Population) OVER(partition by Region ORDER BY Population) as 'Running 
+  Total' FROM world.country WHERE Region = 'Australia and New Zealand'; = Esse comando usa uma função de 
+  janela (OVER) para calcular um total acumulado (Running Total) da população para cada país da região 
+  "Australia and New Zealand". A função SUM(Population) OVER soma a população de forma progressiva, começando 
+  do país menos populoso até o mais populoso.
+
+> SELECT Region, Name, Population, SUM(Population) OVER(partition by Region ORDER BY Population) as 'Running 
+Total', RANK() over(partition by region ORDER BY population) as 'Ranked' FROM world.country WHERE region = 
+'Australia and New Zealand'; = Esse comando faz tudo o que o anterior faz, mas também adiciona uma 
+classificação (RANK()) dos países com base na população. A função RANK() atribui um número a cada país, 
+indicando sua posição no ranking (1 para o mais populoso, 2 para o segundo, etc.)
+>> Retorna a população de cada país, o total acumulado e a classificação (rank) de cada país.
+
+> SELECT Region, Name, Population, RANK() OVER(partition by Region ORDER BY Population desc) as 'Ranked' 
+FROM world.country order by Region, Ranked; = Esse comando classifica os países de cada região por população, 
+do maior para o menor (ORDER BY Population DESC). A função RANK() é usada para atribuir uma classificação a 
+cada país dentro de sua região.
+>> Retorna uma lista de países, agrupados por região, com a classificação de cada país por população.
