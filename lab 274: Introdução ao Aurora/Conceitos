@@ -1,0 +1,11 @@
+Amazon Aurora:
+O Aurora é um mecanismo de banco de dados relacional totalmente gerenciado e compatível com MySQL, que 
+combina o desempenho e a confiabilidade de bancos de dados comerciais avançados com a simplicidade e o 
+baixo custo dos bancos de dados de código aberto. Ele oferece um desempenho até cinco vezes maior que o 
+MySQL, sem exigir alterações na maioria dos aplicativos existentes que utilizam bancos de dados MySQL.
+
+> SHOW DATABASES: Lista os bancos de dados.
+> USE world: Seleciona o banco world.
+> CREATE TABLE: Cria a tabela country.
+> INSERT INTO: Adiciona dados (registros) na tabela.
+> SELECT: Consulta dados da tabela com base em condições.
