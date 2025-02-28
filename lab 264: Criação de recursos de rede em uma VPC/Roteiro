@@ -1,0 +1,50 @@
+painel da aws -> digitar [ vpc ] -> no painel da vpc, clicar em [ criar vpc ] -> [ somente vpc ] -> tag nome: teste 
+vpc -> bloco cidr ipv4: [ entrada manual cidr ipv4 ] -> cidr ipv4:  [ 192.168.0.0/18 ] -> abaixar a tela e ir em 
+[ criar vpc ] -> painel lateral esquerdo da vpc -> [ nuvem privada virtual ] -> procurar por [ sub-redes ] -> 
+[ criar sub-rede ] -> id vpc: [ ... (test vpc) ] -> nome sub-rede: [ Public subnet ] -> zona disponibilidade: 
+[ sem preferencia ] -> bloco cidr ipv4 sub-rede: [ 192.168.1.0/28 ] -> ir em [ criar sub-rede ] -> painel lateral 
+esquerdo da vpc -> procurar por [ tabela de rotas ] -> nome: [ Public route table ] -> vpc: [ ... (test vpc) ] -> 
+[ criar tabela de rotas ] -> painel lateral esquerdo vpc -> procurar por [ gateways de internet ] -> [criar gateway 
+de internet ] -> tag nome: [ IGW test VPC ] -> [ criar gateway de internet ] -> verificar se o [ estado ] está como 
+[ detached ] -> selecionar a caixinha do gateway criado -> ir em [ ações ] -> [ associar a vpc ] -> vpcs disponiveis 
+: [ ... test vpc ] -> clicar em [ associar gateway da internet ] -> verificar se o [ estado ] esta como [ attached ]
+-> verificar o id da vpc na qual o gateway esta conectado ->  painel lateral esquerdo vpc -> procurar por [ tabela de
+rotas ] -> selecionar a tabela [ public route table ] -> ir para a aba de [ rotas ] -> [ editar rotas ] -> 
+[ adiconar rota ] -> [ 0.0.0.0/0 ] -> alvo: [ local ] + [ local ] + [ gateway da internet ] + [ igw-396...21b (IGW 
+teste vpc) ] ->  [ salvar alterações ] -> verificar se o [ alvo ] esta com [  igw-396...21b ] ->  painel lateral 
+esquerdo vpc -> procurar por [ sub-redes ] -> selecionar a sub-rede [ public subnet ] -> ir na aba [ tabela de 
+rotas ] -> [ editar associação da tabela de rotas ] -> id tabela rotas: [ rtb-... (public route table) ] -> [ salvar
+] -> painel lateral esquerdo vpc -> [ segurrança ] -> [ acls da rede ] -> [ criar network acl ] -> nome: [ Public 
+Subnet NACL ] -> vpc: [ vpc-... (test vpc) ] -> [ criar network acl ] -> selecionar a caixa [ Public Subnet NACL ] 
+-> [ regras entrada ] -> [ editar regras entrada ] -> [ adicionar nova regra ] -> numero regra: [ 100 ] + [ todo 
+tráfego ] + [ tcp 6 ] + [ 0 ] + [ 0.0.0.0/0 ] + [ permitir ] -> [ salvar alterações ] -> ir em [ regras saida ] -> 
+[ editar regras de saida ] -> [ adicionar nova regra ] -> numero da regra: [ 100 ] + [ todo o trafego ] + [ tudo ] 
++ .... -> [ salvar alterações ] ->  painel lateral esquerdo vpc -> [ grupo de segurança ] -> [ criar grupo de 
+segurança ] -> nome grupo segurança: [ public security group ] -> descrição: [ allows public access ] -> vpc: 
+[ vpc-... (test vpc) ] -> regras de entrada -> tipo: [ ssh ] + [ qualquer local IPv4 ] + [ 0.0.0.0/0 ] -> [ http ] 
++ [ qualquer local IPv4 ] + [ 0.0.0.0/0 ] -> [ https ] +  [ qualquer local IPv4 ] + [ 0.0.0.0/0 ] -> ir em [ criar 
+grupo de segurança ] -> pesquisar pela instancia [ ec2 ] -> no painel [ executar instancia ] -> [ executar instancia
+] -> nome: [ ec2-test ] ->  imagem maquina: [ amazon linux 2023 AMI ] -> tipo instancia: [ t3.micro ] -> par 
+chaves: [ vockey ] -> [ configuração de rede ] -> vpc: [ vpc-... (test vpc) ] -> sub-rede: [ subnet... public 
+subnet ] -> atribuir ip público automatico: [ habilitar ] -> firewall: [ selecionar grupo existente ] -> grupo seg 
+comuns: [ public security group .. ] -> [ executar instancia ] -> [ visualizar todas as instancias ] -> ir no 
+simbolo de atualização dentro do painel de instancias -> seelcionar o caixinha da instancia [ ec2-test] -> aba 
+[ redes ] -> copiar o ipv4 publico -> baixar o arquivo PPK labuser -> iniciar o putty -> em [ host name for ip 
+address ] -> digitar [ ec2-user@ ] + [ < ipv4 que foi copiado > ] -> porta: [ 22 ] -> [ ssh ] -> [auth] -> 
+[ credentials ] -> [ browse ] -> procurar pelo arquivo labuser que foi baixado -> [ abrir ] -> [ aceitar/ accept ] 
+-> name:  [ ec2-user ] -> digitar: [ ping google.com ] -> mostrará os testes de ping -> pressionar as teclas [ ctrl ]
++ [ c ] para fazer terminar
+
+> a vpc foi criada e será dividida em sub-redes
+> adicionar uma instancia do EC2 dentro da VPC
+> criação de uma tabela de rotas dentro da VPC
+> criação de um gateway de internet 
+> Internet Gateway ( IGW ) = permite com que a vpc acesse a internet -> que a vpc tenha saída para a internet
+> anexação do internet gateway a vpc
+> adicionar rota à tabela de rotas
+> criação da rota 0.0.0.0/0 à tabela de rotas
+> a regra 0.0.0.0/0 permite com que todos os endereços IP acessem a instância
+> permitir a entrada e saída de tudo o que for igual a regra número 100
+> associar sub-rede à tabela de rotas
+> criação do grupo de segurança
+> regras de entrada do grupo de segurança: permitir a entrada do tráfego SSH, HTTP e HTTPS
