@@ -1,0 +1,13 @@
+painel aws -> pesquisar por [ DynamoDB ] -> [ create table ] -> nome da tabela: [ Music ] -> Partition 
+key: [ Artist ] -> deixe [string] seleciona -> Sort key: [ Song ] -> deixar [string] selecionada -> 
+[criar tabela] -> clicar no nome de [ Music ] -> la em cima, clicar em [ações] -> [criar item]  -> 
+Artist: Pink Floyd (String) -> Song: Money (String) -> [adicionar novo atributo] -> [string] -> digitar 
+[Albun]  Album: The Dark Side of the Moon (String) -> [adicionar novo atributo] -> [numero] -> escrever: 
+[ano] -> ano: 1973 -> [criar item] -> [adicionar novo item] -> artista: psy -> musica: Gangnam Style -> 
+[string ] -> Album: Psy 6 (Six Rules), Part 1 -> [adicionar novo atributo] -> [numero] -> ano: 2011 -> 
+[ adicionar novo atributo] -> [numero] -> LengthSeconds: 219 -> [criar item] -> painel lateral -> 
+[tabelas] -> clicar no nome [music] -> [explorar itens da tabela] -> clicar no nome [psy] -> editar [2011]
+para [2012] -> [salvar] -> dm [verificar ou consultar itens] -> marcar [consulta] -> artist: psy -> 
+song: Gangnam Style -> [executar] -> em [filtros opcional] -> nome atributo: ano -> tipo: numero -> 
+valor: 1971 -> painel lateral -> [tabelas] -> selecionar a caixinha [music] -> la em cima -> [ações] -> 
+[atualizar configurações] -> [ações] -> [excluir tabela] -> digitar: confirmar
