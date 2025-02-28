@@ -1,0 +1,9 @@
+DynamoDB é um banco de dados NoSQL altamente escalável e gerenciado, ideal para aplicações que 
+precisam de baixa latência e alta disponibilidade.
+
+> Create table: Cria uma tabela no DynamoDB com chaves primárias.
+> Create item: Adiciona itens (dados) à tabela.
+> Modify item: Atualiza os atributos de um item existente.
+> Query: Busca itens usando as chaves primárias (rápido e eficiente).
+> Scan: Varre toda a tabela para encontrar itens (menos eficiente).
+> Delete table: Remove a tabela e todos os seus dados.
