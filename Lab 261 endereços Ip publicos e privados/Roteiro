@@ -1,0 +1,23 @@
+entrar no console da aws -> digitar [ ec2 ] -> painel lateral esquerdo ou no grupo de [ recursos ] -> clicar em 
+[ instancias ] -> verificar se as 2 instancias estão em estado [ executando ] -> selecionar a caixinha da instancia 
+[ a ] -> ir para a guia de [ networking/redes ] -> copiar o endereço IPv4 privado -> colar em algum lugar para guardar
+-> desmarcar a caixinha da instancia [ a ] e marcar a caixinha da instancia [ b ] -> ir para a guia [ networking/redes] 
+->  copiar o endereço IPv4 público e o IPv4 privado  -> baixar a chave labuser -> abrir a conexão via putty -> em 
+[ host name for IP adress ] -> digitar [ ec2-user@ ] + primeiro IPv4 que foi copiado (instancia a) -> porta [ 22 ] -> 
+ na painel esquerdo [ category ] -> selecionar [ SSH ] -> [ Auth ] -> em [ private key file ..] -> [ browse ] -> 
+ procurar o arquivo [ labuser ] que foi baixado recentemente -> clicar em [ open ] -> irá aparecer uma mensagem de erro 
+ ->  em [ host name for IP adress ] -> digitar [ ec2-user@ ] + segundo IPv4 publico que foi copiado (instancia b) -> 
+porta [ 22 ] -> ... ->  [ browse ] -> procurar o arquivo [ labuser ] que foi baixado recentemente -> clicar em 
+[ open ] -> dará para se conectar -> deve-se adicionar um IPv4 público a isntancia [a] para que outros usuários
+consigam se conectar a ela
+
+Adicionando IPv4 publico a instancia:
+selecionar a caixinha da instancia a -> ir em [ estado da instancia ] -> [ interromper instancia ] -> esperar a 
+instancia entrar em estado [ interrompido ] ->  ir em [ ações ] -> [ redes ] -> [ gerenciar endereços ip ] 
+-> clicar em [ eth0: ] -> [ atribuir id publico automaticamente ] -> [ salvar ] -> selecionar a caixinha da 
+instancia [a] -> ir em [ estado da instancia ] -> [ iniciar instancias ] -> verificar que o endereço ipv4 
+público foi criado
+
+> adicionando endereço ipv4 público à intancia  para as pessoas conseguirem ter acesso
+
+> interromper a instancia para editar o endereço IPv4
