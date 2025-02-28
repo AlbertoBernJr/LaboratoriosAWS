@@ -1,0 +1,29 @@
+entrar no console da aws  -> pesquisar por [ec2] -> painel [ executar isntancia ] -> clicar em [ executar instancia ] 
+-> por o nome/tag de [ test instance ] ->  imagem de máquina (AMI): [ amazon linux 2 AMI (HVM) -> tipo de instancia: 
+t3.micro -> par de chaves: [vockey] -> configuração de rede: vpc.... (lab vpc) -> sub-rede: [ public subnet 1 ] -> 
+atribuir IP publico: [ habilitado ] -> firewall/grupo de segurança: [ selecionar grupo de segurança existente ] -> 
+grupo de segurança comuns: [ LinuxInstanceSG-... ] -> ir em [ executar instancia ] -> painel [ instancias ] -> esperar 
+a instancia [ test instance ] ficar com status de verificação [ 3/3 verificações aprovadas ] -> selecionar a caixinha 
+-> aba [ redes ] -> copiar e colar em um bloco de notas os endereços IPv4 público e privado -> ir em [ estado da 
+instancia ] -> [ interromper instancia ] -> [ interromper instancia ] -> clicar no icone de [ atualizar ] -> a 
+[verificação de status] ficara [ - ] -> aguardar até o [ estado da instancia ] ficar [ interrompido ] -> quando a 
+instancia esta em estado [ interrompido ], o endereço IPv4 público é apagado -> ir em [ estado da instancia ] -> 
+[iniciar instancias ] -> aguardar a instancia ficar em estado [ executando ] -> ir na aba [ redes ] -> verificar que 
+o endereço IPv4 público foi alterado -> ir na barra lateral esquerda -> procurar por [ rede e segurança ] -> [ IPs 
+elasticos ] -> para criar ip elastico: [ alocar endereço de IP elasticos ] -> [ conjunto endereços IPv4 amazon ] -> 
+clicar em [ alocar ] -> clicar na caixinha do IP elastico que foi criado -> [ ações ] -> [ associar endereço IP 
+elástico ] -> tipos de recurso: [ instancia ] -> instancia: [ ... (test instance) .. ] -> clicar em [ associar ] -> 
+painel lateral esquerdo -> procurar por [instancias ] -> marcar a caixa da instancia [ test instance ] -> aba 
+[ redes ] -> copiar o endereço IPv4 público e colar em um bloco de notas para fazer comparação depois -> interromper 
+a instancia e verificar se o IPv4 elastico não foi alterado
+
+caso não precisar mais usar o endereço IPv4 elastico -> painel lateral esquerdo -> [ rede e segurança ] -> 
+[ IPs elasticos ] -> selecionar a caixa do IP elastico -> [ ações ] -> [ desassociar IP elastico] para desvincular a 
+uma instancia ou [ limpar IP elastico ] para exclui-lo
+
+> alterando o endereço IPv4 dinamico de uma instancia para IPv4 elastico
+> criação da instancia: test instance
+> criação de um IPv4 elastico
+> associando o IPv4 elastico que foi criado à instancia
+> IPv4 dinamico: é alterado toda vez que a instancia é reiniciada
+> IPv4 elástico: faz com que o endereço público da instancia não seja alterado após o reinicio
