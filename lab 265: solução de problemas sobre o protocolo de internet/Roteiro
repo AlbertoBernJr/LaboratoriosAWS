@@ -1,0 +1,23 @@
+[ iniciar lab ] -> baixar o arquivo PPK e copiar o endereço publico -> abrir o Putty -> em [ host name 
+for ip address ] -> digitar [ ec2-user@ ] + [ < ip publico que foi copiado > ] -> [ connection ] -> 
+[ auth ] ->  [ credentials ] -> [ browser ] -> selecionar o arquivo labuser que foi baixado -> 
+[ open ] -> [ accept ] -> username: [ ec2-user ] -> digitar: [ ping  8.8.8.8 -c  5 ] -> exibira 5 
+comandos de resposta ( porque o numero [ 5 ] esta depois de [ -c = contar quantidade ] -> aparecerá 
+as informações significando que conseguiu se conectar -> digitar:  [ traceroute 8.8.8.8 ] -> o final 
+tem que estar [ dns. google ( 0.0.0.0) … ] -> significa que conseguiu se conectar com a instancia EC2
+-> digitar: [ netstat -tp ] -> digitar: [ sudo yum install telnet  -y ]-> digitar: [ telnet 
+www.google.com 80 ] -> deverá aparecer uma mensagem [ connected to www.google.com ] -> se não 
+aparecer, algo esta bloqueando a conexão ->pressionar as teclas [ ctrl ] + [ c ] para fechar a 
+conexão do telnet -> digitar: [ curl  -vLo /dev/null https://aws.com ] ->  retornará a mensagem 
+[ connected to aws.com port 443 ] 
+
+> Usar comandos para resolver e verificar problemas de conexão
+> fazer conexão na instância via SSH
+> usar o Putty para acessar a instancia EC2 que está na nuvem aws pelo terminal Linux
+> usar o ping para verificar se o serviço está funcionando
+> uso do comando Traceroute para mostrar o caminho da minha conexão até a instância EC2
+> comando:  [ netstat -tp ] para verificar conexões ativas estão funcionando
+> instalando o [ telnet ] através do comando [ sudo yum install telnet  -y ]
+> testar a conexão do telnet com o site do google através da porta 80 ( HTTP )
+> comando telnet: confirma a conexão TCP com o servidor web, fazendo a solicitação HTTP (protocolo 80)
+> utilização do comando: curl  -vLo
