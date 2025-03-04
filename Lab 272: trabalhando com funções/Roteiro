@@ -1,0 +1,39 @@
+console da aws -> procurar por [ec2] -> [instancias em execução] -> selecionar a caixinha do 
+[command host] -> la em cima, ir em [conectar] -> -> [session manager] -> [conectar] -> 
+digitar: [ 
+sudo su
+cd /home/ec2-user/
+mysql -u root --password='re:St@rt!9' ] -> [SHOW DATABASES;] -> [ SELECT * FROM 
+world.country; ] -> [ DESC world.country; ] -> [SELECT sum(Population), avg(Population), 
+max(Population), min(Population), count(Population) FROM world.country; ] -> [ SELECT 
+Region, substring_index(Region, " ", 1) FROM world.country; ] -> [ SELECT Name, Region from 
+world.country WHERE substring_index(Region, " ", 1) = "Southern"; ] -> [ SELECT Region FROM
+world.country WHERE LENGTH(TRIM(Region)) < 10; ] -> [ SELECT DISTINCT(Region) FROM 
+world.country WHERE LENGTH(TRIM(Region)) < 10; ] -> [ SELECT Name, substring_index
+(Region, "/", 1) as "Region Name 1",substring_index(region, "/", -1) as "Region Name 2" 
+FROM world.country WHERE Region = "Micronesia/Caribbean"; ]
+
+
+> [ SHOW DATABASES; ] = exibe todos os banco de dados
+
+> [ SELECT * FROM world.country; ] = indicando ao sistema que o usuário quer selecionar a 
+tabela [country] que esta dentro do banco de dados [world]
+>> usado para quando o banco de dados e a planilha não estão selecionados e indicam que 
+serão usados
+
+> [ DESC world.country; ] = exibe cada nome que esta na tabela
+
+> [ SELECT sum(Population), avg(Population), max(Population), min(Population), count
+(Population) FROM world.country; ] = exibirá a soma, média, máximo valor, minimo valor e a 
+quantiddade de valores que estão na coluna [population]
+
+> [ SELECT Region FROM world.country WHERE LENGTH(TRIM(Region)) < 10; ] = exibirá o nome 
+dos paises que tem menos de 10 caracteres
+>> [ trim ] = remove os espaços em branco
+
+> [ SELECT DISTINCT(Region) FROM world.country WHERE LENGTH(TRIM(Region)) < 10; ]  = 
+remove os valores repetidos da coluna [region] e exibe os valores que tem menos de 10 
+caracteres
+
+> [ SELECT Name, substring_index(Region, "/", 1) as "Region Name 1",substring_index
+(region, "/", -1) as "Region Name 2" FROM world.country 
