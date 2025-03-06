@@ -1,0 +1,38 @@
+console aws -> pesquisar por [ SNS ] -> painel lateral esquerdo -> [ topicos ] -> 
+[ criar topico ] -> tipo: [ padrao ] -> nome: [ MyCwAlarm ] -> descer ate [ criar assinatura ] 
+-> selecionar a caixinha do topico criado -> aba [ assinaturas ] -> [ criar assinatura ] -> 
+ARN: [ arn: .... MyCwAlarm ] -> protocolo: [ email ] -> EndPoint: <endereço de email da pessoa> 
+-> [ criar assinatura ] -> verificar o email para ver se recebeu notificação por email e clicar 
+em [ confirmar ] -> atualizar a sessão de topicos para atualizar o status -> status tem que estar
+[ confirmado ] -> pesquisar por [ cloudwatch ] -> painel laterial esquerdo -> [ métricas ] -> 
+[todas as métricas ] -> aba [ procurar ] -> clicar no nome [ ec2 ] -> [ per instance metrics] ->
+procurar pela opção que esta [ CPUUtilization ] -> painel lateral esquerdo -> [ alarmes ] -> 
+[ todos os alarmes ] -> [ criar alarme ] -> [ selecionar metrica ] -> clicar no nome [ ec2 ] -> 
+[ per instance ] -> [ CPUUtilization ] -> [ selecionar metrica ] -> nome metrica: 
+[ CPUUtilization ] -> estatistica: [ media ] ou [ avarage ] -> periodo: [ 1 minuto ] -> tipo 
+limite: [ estatico ] -> sempre que: [ maior ] -> que: [ 60 ] -> [ proximo ] -> estado alarme: 
+[ alarme ] -> enviar notificação: [ sns existente ] -> enviar notificação para: [ MyCwAlarm ] -> 
+[ proximo ] -> nome alarme: [ LabCPUUtilizationAlarm ] -> descrição: [ CloudWatch alarm for 
+Stress Test EC2 instance CPUUtilization ] -> [ proximo ] -> [ criar alarme ] -> ir na parte de 
+[ details ] da pagina do lab -> pegar os dados que estão sendo pedidos -> ir em [ url instancia 
+ec2 ] -> copiar o endereço -> colar na aba de pesquisa do navegador -> digitar codigo de 
+estresse: [ sudo stress --cpu 10 -v --timeout 400s ] -> copiar novamente o URL da ec2 e colar em 
+uma nova janela -> digitar: [ top ] -> verificar o email se chegou algum alerta -> voltar ao 
+console aws -> painel lateral esquerdo -> [ paines ou dashboards ] -> [ criar painel ] -> nome: 
+[ LabEC2Dashboard ]
+
+
+> monitorar uma instancia do EC2
+> analisar e coletar os dados para verificar se a instancia esta funcionando da maneira ideial
+> criar uma notificação do amazon SNS
+  >> criar topico
+  >> criar assinatura
+> SNS: serviço de sistema de mensagens que enviará ocorridos na conta AWS por email
+> receber o email de confirmação pelo email
+> configurar alarme do CloudWatch
+  >> gravará os logs 
+  >> criará métricas a partir dos logs armazenados dentro
+> criar um painel do CloudWatch
+> o alarme do CloudWatch será acionado quando a instancia usar 60% da CPU
+> foi digitado um estresse para a instancia que foi aberta dentro do System Manager AWS
+> fazer teste de estresse na istancia do EC2
