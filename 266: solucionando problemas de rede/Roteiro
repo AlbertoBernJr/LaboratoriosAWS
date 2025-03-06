@@ -1,0 +1,27 @@
+[iniciar lab ] -> baixar a chave PPK labuser -> entrar no console aws -> digitar: [ EC2 ] -> no 
+painel [ recursos ], ir em [ instâncias em execução ] -> selecionar a caixinha da instância 
+[ command host ] -> ir na aba [ redes ] -> copiar o endereço ipv4 público -> abrir o aplicativo 
+PUTTY -> em [ host name for ip ], digitar: [ec2-user@ ] + [ < endereço ipv4 copiado > ] -> ir em 
+[ SSH ] -> [ auth ] -> [ credentials ] -> [ browser ] -> procurar pela chave 
+[ labuser ] baixada recentemente -> [ open ] -> [ accept ] -> nome: [ ec2-user ] -> digitar: 
+[ sudo systemctl status httpd.service ] ->  se não estiver ativa, digitar: [ sudo systemctl start 
+httpd.service ] para ativar -> ir na instancia ec2 e copiar o endereço ipv4 publico -> colar o 
+endereço na busca do navegador -> ve se aparece algum conteudo -> se não aparecer, deve-se 
+configurar a VPC -> painel aws -> procurar por [ vpc ] -> painel lateral esquerdo -> [ suas vpcs ]
+-> selecionar a caixinha da vpc que esta ativada [ lab vpc ] -> verificar se o cidir foi criado ->
+se o mapa de recursos foi criado ->  mapa de recursos: subnet publica + tabela de rotas -> 
+verificar aba [ network acl ] -> painel lateral -> verificar o [acls da rede ] -> verificar 
+[ grupos de segurança ] -> selecionar a caixinha de [ linux instance sg ] -> aba [ regras de 
+entrada ] -> [ editar regras de segurança ] -> [ adicinar regras de entrada ] -> tipo: [ HTTP ]
+-> intervalo portas: [ 80 ] -> origem: [ qualquer ipv4 ] -> [ 0.0.0.0/0 ] -> [ adicionar regra ]
+-> tipo: [ HTTPS ] -> intervalo portas: [ 443 ] -> origem: [ qualquer endereço ipv4 ] -> 
+[ 0.0.0.0/0 ] -> [ salvar ] 
+
+
+> verificando o status do httpd para ver se está ativa, através do comando: [ sudo systemctl 
+  status httpd.service ]
+
+> ativando o servidor apache httpd pelo comando: [ sudo systemctl start httpd.service ]
+> instalação do servidor apache httpd
+> conseguindo acesso à instancia através da configuração das regras de entrada para os 
+  protocolos HTTP (80), HTTPS (443) e SSH (22)
