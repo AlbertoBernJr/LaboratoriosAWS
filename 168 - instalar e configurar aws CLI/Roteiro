@@ -1,0 +1,26 @@
+details -> [show] -> baixar ppk -> copiar tupo da pagina -> abrir o putty -> host name: [ ec2-user@ + 
+<endereço ip publico> ] -> [ssh] + [auth] -> [credentials] -> .. -> open -> accept -> 
+[ curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" ] -> 
+[ unzip -u awscliv2.zip ] -> [ sudo ./aws/install ] -> [ aws --version ] -> [ aws help] -> tecla [q] para sair -> 
+console da aws -> procurar por [iam] -> procurrar por [usuarios] -> clicar no nome [awsstudent] -> verificar as 
+permissoes -> [lab policy] e [readonlyaccess] -> subir a tela ->  ir na aba [credenciais de segurança] -> 
+verificar as chaves de acesso -> no cli -> [aws configure] -> colar o [access key] que foi copiado -> colar a 
+[security key] -> colar a [região] -> saida: [json] -> configurar o usuário iam via CLI ->  
+[ aws iam list-users ] -> copiar toda a ARN do usuário e colar no bloco de notas -> 
+[ aws iam list-policies --scope Local ] -> [ aws iam get-policy-version --policy-arn <colar arn>  --version-id v1 > lab_policy.json ]
+
+ 
+
+> instalção da cli do red heat: [ curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" ]
+
+> [unzip -u awscliv2.zip ] = descompactar o que foi baixado
+
+> [ sudo ./aws/install ] = dando acesso de administrador para fazer a instalação
+
+> verificar a versão que esta instalada: [ aws --version ]
+
+> [ aws help ] = verificar se a CLI esta funcionando
+
+> [ aws iam list-users ] = mostra as informações dos usuários IAM
+
+> [ aws iam list-policies --scope Local] = lista as politicas que tem dentro do usuário
