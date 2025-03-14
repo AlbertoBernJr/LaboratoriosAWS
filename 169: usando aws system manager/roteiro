@@ -1,0 +1,39 @@
+se não estiver na tela do system manager, pesquisar por [system manager] -> painel esquerdo -> 
+[ferramentas de nós] -> procurar por [gerenciador de frotas] -> la em cima -> [gerenciamento de contas] -> 
+[configurar inventario] -> nome: [inventory-association] -> destino: [selecionar manual] -> selecionar a 
+caixinha da instancia [managed instance] -> ir ate o final da tela -> [configurações de inventario] -> 
+clicar no nome ID [i-098…] -> mostrará todas as informações do inventário criado -> no painel lateral esq 
+[geral] -> [inventario] -> mostra todos os aplicativos que estão dentro da instancia -> voltar para a parte 
+inicial do system manager -> painel esquerdo -> [comando de execução] -> clicar em [executar o comando] -> 
+pesquisar por [proprietário: de minha propriedade] -> selecionar a bolinha do resultado -> destinos: 
+[escolher instancias manualmente] -> seelcionar a caixinha de [manage instance] -> em opção de saida: 
+desabilitar gravação do S3 -> clicar em [executar] -> abaixar a pagina -> em [destino e saida] -> aguardar o
+status esta verde -> subir a pagina -> clicar no iconne de atualizar (embaixo do ID) -> indicando que a 
+instancia ja eta em execução -> ir no [vocarium] -> [details] -> mostar -> copiar o valor do [server IP] -> 
+colar em um bloco de notas -> colar em uma aba anonima -> irá exibir o dashboard de monitoramento -> voltar 
+ao console -> barra lateral esq -> [ferramentas de aplicaçã] -> clicar em [ armazem de parametros] -> 
+[criar parametros] -> nome: [/dashboard/show-beta-features] -> descrição:[Display beta features] -> valor: 
+[True]-> [criar parametro] -> ir no site que esta o dashboard de monitoramento e atualizar -> na console 
+aws -> painel lateral -> [ferramenta de nos] -> [gerenciador de sessoes] -> [iniciar sessao] -> em 
+[instancias de destino], selecionar a instancia [managed] -> [start session] -> acessando a EC2 via system 
+manager -> digitar [ ls /var/www/html ] -> [ 
+# Get region
+AZ=`curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone`
+export AWS_DEFAULT_REGION=${AZ::-1}
+# List information about EC2 instances
+aws ec2 describe-instances
+] 
+-> [aws EC2 describe-instances]
+
+
+> gerar lista de inventário para instancias gerenciáveis - coletar informações do sistema operacional, 
+    informações de aplicativos e meta-dados de instâncias EC2
+
+> o recurso de inventário irá atualizar todas as instâncias que estão dentro automaticamente
+> a instancia [manage instance] ja tem o system anager instalado
+> foi usado um comando de execução pelo system manager para instalar um aplicativo personalizado na sua instancia sem precisar acessar-la remotamente
+> usar o parametrer store para gerenciar os parâmetros do aplicativo
+> [ ls /var/www/html ] = listar todos os arquivos que estao dentro da pasta [varr/www/html]
+> [ # Get region AZ=`curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone` export AWS_DEFAULT_REGION=${AZ::-1}
+    # List information about EC2 instances aws ec2 describe-instances] = fazer login em uma isntancia sem usar o acesso SSH
+> [aws EC2 describe-instances] = mosttra todas as informações da instancia
