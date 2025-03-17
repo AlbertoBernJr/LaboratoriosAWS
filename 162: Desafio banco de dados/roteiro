@@ -1,0 +1,57 @@
+aws console -> pesquisar por [vpc] -> modificar o grupo de segurança -> painel lateral esq -> [grupo de segurança] -> 
+selecionara caixinha [web security group] -> editar [regras de entrada] -> em [adicionar regra] -> tipo: [MySQL/Aurora] 
+-> origem: [ 0.0..] -> [salvar regras] -> pesquisar por [rds] -> painel lateral esq -> [grupo de subredes] -> 
+[criar uma subrede] ->  nome: [mysql] -> descrição: [permit acess] -> vpc:  [lab vpc] -> ZA: [.. 2a e …2b] -> sub-redes: 
+[privat subnet 1 e 2] -> [criar] -> painel lateral [banco de dados] -> [criar banco de dados] ->[criação padrao] ->  
+[MySQL] -> modelo: [dev/test] -> disponibilidade: [instancia bando de dados unica] -> identificador: [ database ] -> 
+nome usuario principal: [admin] -> [autogerenciada] -> senha: [ 1q2w3e4r5t ] -> conf instancia: [.. classes t] -> 
+tipo: t3.micro -> armazenamento: [ssd gp2] -> alocado: [100] -> vpc: [labVPC] -> sub-redes: [mysql] -> 
+grupo segurança vpc: desmarcar default, por web security goup -> porta: 3306 -> conf adicionais: desmarcar monitoramento 
+-> conf adicionais: [lab] -> desmarcar backup -> [criar banco de dados] -> esperar ser criada -> painel lateral -> 
+[banco de dados]-> copiar o [end point porta] -> traduzir a pagia para o ingles -> baixar o PPK -> colar o ip do linux 
+server -> … -> [open] -> acesso putty -> entrar no aplicativo [PuTTY] -> colar o IP em [host name for IP address] -> 
+porta [22] -> no catalogo do lado esquerdo -> procurar por [connection] -> em [SEconds between...], por o numero [60] -> 
+no catalogo, clicar no [+] do [SSH] -> clicar no [+] do [Auth] -> clicar em [credentials] -> em [private key file...], 
+clicar em [browse] ->  selecionar o aplicativo [labsuser] que foi baixado recentemente (verificar a data de modificação 
+se está na mais recente) -> ir em [abrir] -> clicar em [abrir] -> [aceitar =accept] -> digitar [ec2-user] -> 
+[ sudo yum install mysql -y ] -> [ mysql --version ] -> [ mysql -h <endpoint-do-rds> -u <nome-banco-dados> -p ] -> 
+[admin123] -> SHOW DATABASES; -> CREATE DATABASE RESTART; -> USE RESTART; -> 
+CREATE TABLE RESTART (
+    id_aluno INT PRIMARY KEY,
+    nome_aluno VARCHAR(100) NOT NULL,
+    cidade_reiniciar VARCHAR(100) NOT NULL,
+    data_formatura DATETIME NOT NULL
+); -> 
+INSERT INTO RESTART (id_aluno, nome_aluno, cidade_reiniciar, data_formatura) VALUES
+(1, 'Ana Souza', 'São Paulo', '2025-06-15 10:30:00'),
+(2, 'Carlos Mendes', 'Rio de Janeiro', '2025-07-20 14:00:00'),
+(3, 'Mariana Lima', 'Belo Horizonte', '2025-08-05 09:15:00'),
+(4, 'Pedro Santos', 'Porto Alegre', '2025-09-10 16:45:00'),
+(5, 'Fernanda Costa', 'Curitiba', '2025-10-25 11:20:00'),
+(6, 'Ricardo Alves', 'Salvador', '2025-11-30 13:50:00'),
+(7, 'Juliana Pereira', 'Fortaleza', '2025-12-05 17:10:00'); -> SELECT * FROM RESTART;
+-> 
+CREATE TABLE CLOUD_PRACTITIONER (
+    id_aluno INT PRIMARY KEY,
+    data_certificacao DATETIME NOT NULL
+); -> 
+INSERT INTO CLOUD_PRACTITIONER (id_aluno, data_certificacao) VALUES
+(1, '2025-07-01 14:00:00'),
+(3, '2025-08-10 10:30:00'),
+(5, '2025-11-05 09:00:00'),
+(7, '2025-12-20 16:45:00'),
+(9, '2026-02-25 13:15:00');
+-> SELECT * FROM CLOUD_PRACTITIONER; -> 
+
+SELECT 
+    RESTART.id_aluno, 
+    RESTART.nome_aluno, 
+    CLOUD_PRACTITIONER.data_certificacao
+FROM RESTART
+INNER JOIN CLOUD_PRACTITIONER ON RESTART.id_aluno = CLOUD_PRACTITIONER.id_aluno;
+
+> criar um grupo de sub-redes
+> construir um servidor de banco de dados
+> interagir com o banco de dados
+> instalando o mysql: sudo yum install mysql -y
+> mysql --version: verificar a versao do mysql
