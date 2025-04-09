@@ -1,0 +1,47 @@
+O que foi feito:
+-criar um volume
+-anexar e montar o volume na EC2
+-criar uam snapshot
+-apagar os dados de dentro do volume
+-recriamos o volume usando o snapshot
+-[df -h ] = está consultando o disco que tem dentro da instancia
+-[ sudo mkfs -t ext3 /dev/sdb ] = criar um novo sistema de arquivos para dentro do volume
+-[ sudo mkdir /mnt/data-store ] = criar um diretório/pasta para montar um armazenamento a esse volume
+-[sudo mount /dev/sdb /mnt/data-s…] = montar um novo volume
+-[ cat /etc/fstab ] = visualizar o que tem dentro do volume
+-[ sudo sh -c "echo some text has been written > /mnt/data-store/file.txt" ] = criar um arquivo e adicionar um texto no volume
+-[ cat /mnt/data-store/file.txt ] = listar o que tem dentro do arquivo
+
+
+criaremos um novo volume do EBS -> console aws -> pesquisar por [ EC2 ] -> la em cima, lado direito da engrenagem, verificar se esta
+na região [ us-west-2 ] - Oregon -> painel lateral esquerdo -> procurar por [ Elastic Block Store ] -> [ volumes ] -> [ criar volume
+] -> tipo volume: [ gp2 ] -> tamanho GB: [ 1 ] (para inicializar mais rapido) -> zona de disponibilidade: [ us-west-2a ] -> id 
+snapshot: [ não criar… ] -> tag -> chave: [ Name ] -> valor: [ My volume ] -> [criar volume] -> esperar o status de [ Disponível ] 
+-> selecionar a caixinha do [ My Volume ] -> la em cima -> [ ações ] -> [ associar volume ] -> instancia: [ Lab ] -> nome do 
+dispositivo: [ /dev/sdb ] -> [ associar volume ] -> ir la no icone de atualização -> fazer a conexão da instancia do EC2 para 
+trabalhar por linha de comando no volume -> pesquisar por [ EC2 ] -> [ instancias em execução ] -> selecionar a caixinha da 
+instancia [ Lab ] -> la em cima -> [ conectar ] -> abaixar a tela -> [conectar] -> [ df -h ] -> criar um novo sistema de arquivos 
+para dentro do volume -> [ sudo mkfs -t ext3 /dev/sdb ] -> criar um diretório/pasta para montar um armazenamento a esse volume -> 
+[ sudo mkdir /mnt/data-store ] -> montar um novo volume -> 
+
+sudo mount /dev/sdb /mnt/data-store
+echo "/dev/sdb   /mnt/data-store ext3 defaults,noatime 1 2" | sudo tee -a /etc/fstab
+
+-> visualizar o que tem dentro do volume -> [ cat /etc/fstab ] -> criar um arquivo e adicionar um texto no volume -> 
+[ sudo sh -c "echo some text has been written > /mnt/data-store/file.txt" ] -> listar o que tem dentro do arquivo -> 
+[ cat /mnt/data-store/file.txt ] -> aparecerá uma mensagem dizendo que algum texto foi criado -> criar um snapshot no EBS -> voltar
+a console aws -> em EC2 -> painel lateral esquerdo -> [ elastic block store ] -> [volume] -> selecionar a caixinha de [My Volume] 
+-> [açoes] -> [criar snapshot] -> [adicionar tag] -> Nome: [ Name ] -> valor: [ My Snapshot ] -> [criar snapshot] -> painel lateral
+esquerdo -> [snapshot] -> esperar até que o nivel esteja [concluido] -> voltar para a janela da CLI -> remover todos os arquivos do
+volume -> [ sudo rm /mnt/data-store/file.txt ] -> verificar se o arquivo foi removido -> [ ls /mnt/data-store/file.txt ] -> 
+mostrará um erro de diretório não encontrado -> restaurar o snapshot que criamos no EBS -> voltar a janela do console aws -> 
+painel lateral esquerdo -> Elastic Block Store -> [ snapshot ] -> selecionar a caixinha do [ My Snapshot ] -> [ações] ->  
+[ criar volume com snapshot ] -> tipo de volume: [ ..gp2] -> [adicionar tag] -> chave: [ Name ] -> valor: [ Restored Volume ] -> 
+zona de disponibilidade: [ us-west-2a ] -> descer a tela -> [criar volume] -> painel lateral esquerdo -> [volumes] -> verificar 
+se existe um [Restored Volume] -> verificar se o estado esta [disponivel] -> voltar e anexar ele a instancia -> selecionar a 
+caixinha de [Restored Volume] -> [ações] -> [associar volume] -> instancia: [lab] -> nome dispositivo: [ /dev/sdc ] -> 
+[associar volume] -> verificar se o status esta [em uso] -> indica que foi perfeitamente anexado a instancia -> teremos que 
+remontar todos os arquivos e dados dentro desse novo volume -> na aba no cli -> [ sudo mkdir /mnt/data-store2 ] -> montar o 
+volume -> [ sudo mount /dev/sdc /mnt/data-store2 ] -> verificar se o volume foi montado corretamente e mostrar o que tem dentro 
+dele -> [ ls /mnt/data-store2/file.txt ] -> informa se dentro desse arquivo de texto existe algum texto -> 
+[ cat /mnt/data-store2/file.txt ] -> mostratá uma mensagem dizendo que algum texto foi escrito
