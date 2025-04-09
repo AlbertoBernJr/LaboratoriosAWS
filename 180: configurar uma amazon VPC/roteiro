@@ -1,0 +1,74 @@
+O que foi feito:
+- criar vpc
+- criação de 2 sub-redes
+- atribuindo endereço público automatico a sub-rede
+- criação do gateway de internet
+- associando o internet gateway a [public subnet]
+- criar tabela de rota
+- criar um bastion host
+- criar um NAT gateway para a sub-rede privada
+- criar uma instancia EC2 dentro de uma sub-rede privada
+
+console aws -> criar a vpc -> pesquisar por [ VPC ] -> [ criar vpc ] -> [somente vpc ] -> tag nome: [ lab vpc ] -> CIDR IPv4: 
+[ 10.0.0.0/16 ] -> [ nenhum bloco CIDR IPv6 ] -> descer a tela -> [ criar vpc ] -> selecionar a caixinha da VPC que foi criada -> 
+la e cima -> [ ações ] -> criar 2 subredes -> [ editar configuração da vpc ] -> configurações de DNS: [ habilitar nomes de host DNS]
++ [ habilitar resolução DNS ] -> os nomes que os Hosts receberem, aparecerão no lugar do endereço IPV4 -> descer a tela -> 
+[ salvar ] -> criar 2 sub-redes -> painel lateral esquerdo -> [ sub-rede ] -> [ criar sub-rede ] -> ID da VPC (dentro de onde a 
+subrede estará): selecionar [ Lab VPC ] -> [ configuração de sub-rede] -> nome sub-rede: [ Public subnet ] -> zona disponibilidade: 
+[ sem preferencia ] -> bloco CIDR IPv4 da subrede: [ 10.0.0.0/24 ] -> permitirá a criação de 226 IPs diferentes para a sub-rede -> 
+[criar subrede] -> selecionar a caixinha da subrede criada -> [ações] -> [editar configurações de sub-rede] -> configuração de 
+atribuição automatica IP: [ habilitar endereço IPv4 publico de atribuição automatica] -> descer a tela -> [salvar] -> agora, criar 
+uma sub-rede privada ->      [ criar sub-rede ] -> ID da VPC (dentro de onde a subrede estará): selecionar [ Lab VPC ] -> 
+[ configuração de sub-rede] -> nome sub-rede: [ Private subnet ] -> zona disponibilidade: [ sem preferencia ] -> bloco CIDR IPv4 da 
+subrede: [ 10.0.2.0/23 ] (só para diferenciar uma sub-rede da outra) -> permitirá a criação de 512 IPs diferentes para a sub-rede ->
+[criar subrede] -> criando um gateway de internet para a sub-rede publica -> painel lateral esquerdo -> [gateway de internet] -> 
+[criar gateway de internet] -> tag nome: [ LabIGW ] -> [criar] -> associar o internet gateway à [Public subnet] -> painel lateral 
+esquerdo -> [internet gateway] -> selecionar a caixinha do [LabIGW] -> la em cima -> [ações] -> [associar à VPC] -> vpc 
+disponiveis: [ Lab VPC ] -> [associar gateway de internet] -> [associar gateway de internet] -> painel lateral esquerdo -> 
+[gateway de internet] -> verificar se o estado do internet gateway [LabIGW] esta [atached] -> criar tabela de rotas para a 
+sub-rede privada -> painel lateral esquerdo -> [tabela de rotas] -> [criar tabela de rotas] -> nome: [ PrivateRT ] -> vpc: 
+[ LabVPC] -> [criar tabela de rotas] -> criar tabela de rotas para a sub-rede publica -> [criar tabela de rotas] -> nome: 
+[ PublicRT ] -> vpc: [ LabVPC] -> [criar tabela de rotas] -> adicionando uma rota na sub-rede publica -> painel lateral esquerdo 
+-> [tabela de rotas] -> selecionar o quadradinho de [PublicRT] -> la em cima -> [ações] -> [editar rotas] -> [adicionar rota] -> 
+destino: [ 0.0.0.0/0 ] -> alvo: [ gateway da internet ] ->  [igw-...] -> [salvar alterações] -> aba [associação de subrede] -> 
+[editar associação de subrede] -> associar a tabela de rotas a internet publica -> selecionar a caixinha de [public subnet] -> 
+[salvar associação] -> criando um bastion host (nome da EC2) -> pesquisar por [EC2] -> descer a tela e procurar 
+[executar instancia] -> nome: [ Bastion server ] -> Imagem máquina amazon (software que será usado): [ Amazon Linux 2023 AMI ] -> 
+tipo instancia: [ t3.micro ] -> par de chaves: [ prosseguir sem part de chaves ] -> [ configuração de rede] -> [editar] -> vpc: 
+[ LabVPC] -> sub-rede: selecionar a [ Public subnet ] -> atribuir IP publico: [ habilitado ] -> firewall(grupo de segurança): 
+[ criar grupo de segurança ] -> nome: [ Bastion Security Group ] -> descrição: [ Permite SSH ] - a configuração permitirá acesso 
+SSH para nos conectarmos a instancia -> tipo: [ ssh ] -> tipo de origem: [ qualquer lugar ] -> descer a tela -> 
+[executar instancia] -> painel lateral esquerdo -> [ instancias] -> verificar se o status da isntancia [ Bastion server] esta 
+[inicializando] -> criar um gateway NAT para a sub-rede privada e configurar a tabela de rotas para facilitar a comunicação entre 
+a sub-rede privada e a internet -> pesquisar por [ VPC] -> painel lateral esquerdo -> [NAT gateway] -> criar gateway nat] -> 
+nome: [ LabNatGateway ] -> sub-rede: [ PublicSubnet ] - o acesso fica na sub-rede publica. somente as instancias fiicam na 
+sub-rede privada -> tipo conectividade: [ publico ] -> [ id alocação IP elastico ] -> [ alocar IP elastico ] -> nos foi criado um 
+IP elastico (IP fixo) - precisa-se de um IP elastico para conectar a sub-rede privada com a internet passando pela sub-rede publica
+- na hora que for desconectar, o IP não mudar e conseguir conectar novamente -> abaixar a tela -> [criar gateway NAT] -> esperar o 
+estado estar [available] -> painel lateral esquerdo -> [tabela de rotas] -> selecionar a caixinha da [PrivateRT] -> mudar a rota da
+sub-rede privada para apontar ao [LabGatewayNat] -> em baixo -> aba [rotas] -> [editar rotas] -> [adicionar rota] -> destino: 
+[ 0.0.0.0/0 ] -> alvo: pesquisar por [Gateway NAT] -> na lupa: selecionar o NAT Gateway que foi criado - [LabNatGateway] -> a 
+conexão sairá para a internet através do gateway nat -> [salvar alterações] -> verificar as rotas e se o [destino 0.0…] esta 
+apontando para o alvo certo -> criar uma instancia EC2 dentro de uma sub-rede privada -> pesquisar por [EC2] -> [executar uma 
+instancia] -> nome: [ PrivateInstance ] -> imagem de maquina: [ amazon linux 2023 AMI ] -> tipo instancia: [ t3.micro ] -> par de 
+chaves: [ continuar sem par de chaves ] (importante ter um par de chaves para evitar com que alguem com o seu IP se conecte à 
+instancia - par de chaves é para fazer login na EC2) -> [ configuração de rede ] -> [ editar ] -> vpc: [ LabVPC ] -> sub-rede: 
+[ Private Subnet ] -> atribuir IP publico automaticamente: [ desabilitado ] -> firewall(grupo de segurança): 
+[ criar grupo de segurança ] -> nome: [ Private Instance SG ] -> descrição: [ Permite SSH do BastionHost ] -> o bastion host irá se
+conectar a sub-rede privada via SSH -> tipo origem: [ personalizado ] -> origem: [ 10.0.0.0/16 ] (vem da vpc) -> detalhes 
+avançados -> abaixar a tela ate o final -> [dados do usuário] -> 
+
+#!/bin/bash
+# Turn on password authentication for lab challenge
+echo 'lab-password' | passwd ec2-user --stdin
+sed -i 's|[#]*PasswordAuthentication no|PasswordAuthentication yes|g' /etc/ssh/sshd_config
+systemctl restart sshd.service
+
+-> executar instancia -> fazer uma conexão na EC2 -> pesquisar por [EC2] -> [instancias em execução] -> selecionar a caixinha de 
+[BastionServer] -> la em cima -> [conectar] -> descer a tela -> [conectar] -> voltar para a aba de instancias -> desmarcar a 
+caixinha de [BastionServer] -> marcar a caixinha de [PrivateInstance] -> la em baixo -> procurar pelo endereço IPv4 privado -> 
+copiar o endereço IPv4 privado -> volttar para a aba onde esta a linha de comando -> digitar: [ ssh ] + <endereço IPv4 privado 
+copiado> -> [ yes ] -> password: [ lab-password ] -> na hora de colar, a senha não irá aparecer por segurança -> saimos da sub-rede
+publica e nos conectamos a sub-rede privada -> teste para ver se esta tendo conexão com a internet -> digitar: 
+[ ping -c 3 amazon.com ] -> irá verificar conexão com o site da amazon -> mensagem informará que foram enviados 3 pacotes e nenhum 
+voltou = indica que não tem conexão com a internet
