@@ -1,0 +1,61 @@
+O que foi aprendido:
+- usar o console para iniciar uma instancia do EC2
+- apos, usar o bastion host para iniciar outra instancia do EC2, que será um servidor web
+- usar o EC2 instance connect para se conectar com segurança ao Bastion Host
+- usar o AWS CLI para iniciar umas instancia do servidor web
+
+- [ wget https://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/CUR-TF-100-RSJAWS-1-23732/171-lab-JAWS-create-ec2/s3/UserData.
+   txt ] = irá recuperar e instalar o servidor web 
+
+- [ cat UserData.txt ] = ver o que tem dentro do arquivo -> esta iniciando um servidor web apache que sera usado na aplicação
+
+- [ aws ec2 describe-instances --instance-ids $INSTANCE ] = mostra todas as informações da instancia que foi criada
+
+- [ aws ec2 describe-instances --instance-ids $INSTANCE --query 'Reservations[].Instances[].State.Name' --output text ] = so 
+devolve como esta o estado da instancia 
+
+- [ aws ec2 describe-instances --instance-ids $INSTANCE --query Reservations[].Instances[].PublicDnsName --output text ] = 
+exibe o endereço IPv4 DNS da instancia 
+---------------------------------------------------------------------------------------------------------------------------
+
+entrar na console aws -> procurar por [ EC2 ] -> [ executar uma instancia ] -> [ executar instancias ] -> tag: 
+[ Bastion host ] -> imagem de maquina: [ Amazon Linux 2 AMI (HVM) ] -> tipo: [ t3.micro ] -> par de chaves: 
+[ prosseguir sem par de chaves ] -> configuração de rede -> [editar] -> vpc: [ lab vpc ] -> sub-rede: [ public sub-net ] -> 
+firewall: [Criar grupo de segurança ] -> nome grupo de segurança: [ Bastion security group ] -> descrição: 
+[ Permit SSH connections ] -> detalhes avançados -> perfil IAM:  [ Bastion-Role ] l-> abaixar ate o final -> 
+[ executar instancia ] -> esperar esta com estado de [inicializada] -> selecionar a caixinha da instancia [bastion host] -> 
+[conectar] -> aba [ conexão instancia EC2 ] -> tipo conexão: [ EC2 instance connect ] -> [conectar] -> iniciando outra 
+instancia EC2 via CLI -> recuperar a imagem da máquina -> [ aws configure ] -> dar entrer no [ access key ] e 
+[ secrety access key ] -> ver la em cima a região que esta -> digitar essa mesma região no [ region name ] -> [us-west-2] -> 
+pular o [output format] com a tecla [enter] -> 
+
+AZ=`curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone`
+export AWS_DEFAULT_REGION=${AZ::-1}
+AMI=$(aws ssm get-parameters --names /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2 --query 'Parameters[0].[Value]' --output text)
+echo $AMI
+
+-> copiar o codigo da AMI que apareceu -> SUBNET=$(aws ec2 describe-subnets --filters 'Name=tag:Name,Values=Public Subnet' 
+--query Subnets[].SubnetId --output text) -> echo $SUBNET -> copiar o codigo da sub-net e colar num bloco de notas -> 
+criando o grupo de segurança -> SG=$(aws ec2 describe-security-groups --filters Name=group-name,Values=WebSecurityGroup 
+--query SecurityGroups[].GroupId --output text)
+echo $SG
+-> copiar o codigo do grupo de segurança e colar num bloco de notas -> wget https://aws-tc-largeobjects.s3.us-west-2.amazonaws
+.com/CUR-TF-100-RSJAWS-1-23732/171-lab-JAWS-create-ec2/s3/UserData.txt -> [ ls ] -> cat UserData.txt -> 
+INSTANCE=$(\
+aws ec2 run-instances \
+--image-id <codigo AM>I \
+--subnet-id <codigo SUBNET> \
+--security-group-ids <codigo SG> \
+--user-data file:///home/ec2-user/UserData.txt \
+--instance-type t3.micro \
+--tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=Web Server}]' \
+--query 'Instances[*].InstanceId' \
+--output text \
+)
+echo $INSTANCE
+-> voltar ao console da aws -> instancias em execução -> atualizar a pagina para ver se apareceu uma nova instancia 
+[Web Server] em execução -> aws ec2 describe-instances --instance-ids $INSTANCE -> procurar por [ “state” e “running” ] 
+indicando que a instancia esta em execução -> aws ec2 describe-instances --instance-ids $INSTANCE --query 
+'Reservations[].Instances[].State.Name' --output text -> aws ec2 describe-instances --instance-ids $INSTANCE --query 
+Reservations[].Instances[].PublicDnsName --output text -> copiar e colar o enderço IPv4 da instancia na barra de pesquisa -> 
+aparecerá o grafico de monitoramento
