@@ -1,0 +1,6 @@
+O que foi aprendido:
+- implantar uma pilha no cloud formation - criação de subrede, vpc, tabela de rotas, grupo de segurança, gateway de internet
+- adicionar um bucket S3 à pilha criada
+- uma nuvem privada definida pelo grupo de segurança
+- criar uma outra pilha com outros recursos, como bucket do S3 e uma EC2
+- encerrar todo o laboratório, excluir toda a infraestrutura que foi implantada
