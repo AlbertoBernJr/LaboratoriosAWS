@@ -1,0 +1,44 @@
+O que foi aprendido:
+- configurar um roteamento FailOver para um aplicativo web simples no route 53
+- ja começa com 2 instâncias criadas
+- as Ec2 estão em zonas de disponibilidade diferentes -> se uma ZA falhar, a outra será ativada
+- configurar uma verificação de integridade do route 53 para verificar se a integridade de um ponto se tornar 
+---------------------------------------------------------------------------------------------------------------
+
+[details] -> [show] -> copiar tudo o que esta em baixo e colar num bloco de notas -> console aws -> procurar por EC2 -> 
+verificar que tem 2 instancias ativas -> [instancias em execução] -> abrir uma nova janela do navegador -> colar a endereço da
+[PrimaryWebServer] -> numero de IP + [/cafe] -> caso não abra, tirar o [s] de [HTTPS] -> exibirá o site do café -> fazer o 
+mesmo com o URL da [SecondaryWebSite] -> configurar uma verificação de integridade no route 53 -> console aws -> pesquisar por
+[Route 53] -> panel esquerdo -> [verificações de integridade] -> [criar verificação de integridade] -> nome: 
+[ Primary-Website-Health ] -> o que monitorar: [ endpoint ] -> [monitorar um endpoint ] -> endereço IP: 
+<CafeInstance1IPAdress> -> caminho: [ /cafe ] -> descer a tela -> verificar que a URL foi criada -> será para onde o IP do 
+site será redirecionado -> [configuração avançada] -> intervalo solicitação: [ rapido 10s ] -> a cada 10s, verificará a 
+integridade -> limite falha: [2] -> se falhar 2x durante esses 10 seg, irá mudar de instancia -> descer a tela -> [proximo] 
+-> criar alerta: [sim] -> enviar notificação: [novo alerta do SNS] -> nome do topico: [ Primary-Website-Health ] -> endereço 
+de email: <email valido> -> email por onde recebera os alertas -> descer a tela -> [criar verificação de integridade] -> 
+route 53 verifica a integridade do seu site, solicitando periodicamente o nome de dominio fornecido e verificando se 
+retornará resposta -> verificar no email se recebeu notificação -> abrir o email -> clicar em [confirm subscription] -> criar
+registros no route 53 -> pesquisar por [route 53] -> painel lateral esquerdo -> [zona hospedada] -> clicar no nome da que tem
+[...vocarium.training] -> descer a tela -> verificar que existem 2 registros de DNS (nome de site) para essa zona -> ir em 
+[criar registro] -> nome do registro: [www] -> tipo de registro: [A] -> valor: <endereço IP da instancia 1> -> irá rotear 
+esse endereço de IP para a nossa aplicação -> TTL: [15] -> tipo roteamento: [Failover] -> tipo registro failover: [principal]
+-> essa configuração é para a instancia principal -> ID do registro:[  FailoverPrimary ] -> verificação de integridade: 
+[Primary-....] -> [criar registro] -> fazer o mesmo processo para criar a instancia 2 -> criando um apontamento, em caso de 
+falha da 1 instancia, para a 2 instancia -> … -> tipo de registro: [ secundario ] -> ID Registro: [ FailoverSecondary ] -> ID
+verificação identidade: <deixar em branco> -> quando a instancia primaria volttar a funcionar, tudo será redirecionado para a
+instancia primária -> [ criar registro ] -> painel esquerdo -> [ zonas hospedadas ] -> clicar no nome da instancia 
+[...vocariun.training ] -> descer a tela para visualizar -> mover a barrinha para a direita e verificar que a politica das 
+2 ultimas é [failover] - foram criadas para serem redirecionadas -> selecionar a caixinha do primeiro failover / tipo A -> 
+copiar o registro -> colar num bloco de notas -> selecionar a caixinha do 2 failover / tipo A -> copiar o nome registro e 
+colar num bloco de notas -> o nome de dominio é o mesmo, mas o IP é diferente -> abrir uma noba aba no navegador e colar o 
+noome de registro copiado + [ /cafe ] -> em [ server information ] -> a parte de [ IP ] -> quando houver uma falha, o IP 
+irá ser alterado ->  | verificando se o route 53 fará failover corretamente ao servidor secundário se o servidor primario 
+falhar -> console da aws -> pesquisar por [EC2] -> [ instancias em execução ] -> selecionar a caixinha de [Cafeinstance1 ] 
+-> [ estado da instancia ] -> [ interromper instancia ] -> fazer a instancia principal falhar -> atualizar para ver se a 
+instancia esta interrompida -> verificar se chegou alguma notificação por email -> pesquisar por [Route 53] -> painel 
+esquerdo -> [verificação de integridade] -> selecionar a caixinha do [Primary-...] -> aba de [monitoramento] -> verificar 
+que o gráfico da instancia esta caindo  -> atualizar a aba que esta aberta no site do café -> verificar que o IP foi 
+alterado -> voltar a instancia [EC2] e habilitar de novo -> seelcionar a caixinha da instancia que esta interrompida -> 
+[estado da instancia] -> [iniciar instancia] -> verificar se esta [executando] -> atualizar a aba que esta  aberta no site 
+do café -> verificar a integridade no route 53 -> pesquisar por [route 53] -> [verificação de integridade] -> selecionar a 
+caixinha da [Primary-...] -> aba [monitoramento] -> abaixar a pagina -> verificar que a integridade esta subindo
