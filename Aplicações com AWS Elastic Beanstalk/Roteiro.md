@@ -1,11 +1,3 @@
-Com certeza! Analisei o material do seu laboratório sobre Elastic Beanstalk e o reestruturei em um guia passo a passo mais claro e didático.
-
-A nova versão foca em explicar melhor a diferença crucial entre os tipos de `roles` (um ponto comum de confusão), adiciona uma etapa de verificação para ver a aplicação funcionando e organiza a exploração das funcionalidades de forma mais lógica, finalizando com uma seção de limpeza essencial.
-
-Aqui está o guia do seu laboratório, aprimorado e pronto para ser seguido.
-
----
-
 ### **Guia de Laboratório: Implantação de Aplicações com AWS Elastic Beanstalk**
 
 #### **Visão Geral**
